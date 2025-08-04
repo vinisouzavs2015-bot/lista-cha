@@ -1,82 +1,212 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
-  <meta charset="UTF-8">
-  <title>Lista do Chá</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <title>Lista Chá de Casa Nova</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('/static/fundo.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+      background-color: #000;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      padding: 20px 30px 40px;
+      box-shadow: 0 0 15px rgba(0, 220, 255, 0.3);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 700;
+      text-shadow: 0 0 10px #0bdce3;
+    }
+    form.form-add {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.1em;
+      outline: none;
+    }
+    button {
+      background-color: #0bdce3;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      box-shadow: 0 0 8px #0bdce3aa;
+    }
+    button:hover {
+      background-color: #0aa1b1;
+      box-shadow: 0 0 12px #0aa1b1cc;
+    }
+    ul.lista-itens {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.lista-itens li {
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(3px);
+      font-size: 1.1em;
+    }
+    ul.lista-itens li a {
+      color: #0bdce3;
+      text-decoration: none;
+    }
+    ul.lista-itens li a:hover {
+      text-decoration: underline;
+    }
+    form.remove-form button {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+    form.remove-form button:hover {
+      color: #c0392b;
+    }
+    .logout-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 10px 25px;
+      background: transparent;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: fit-content;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 0 8px #ccc88;
+    }
+    .logout-btn:hover {
+      color: white;
+      border-color: white;
+      box-shadow: 0 0 12px white;
+    }
+    .login-link {
+      display: block;
+      margin-top: 40px;
+      color: #ccc;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: color 0.3s ease;
+    }
+    .login-link:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* WhatsApp Float Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      padding: 16px;
+      font-size: 28px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .whatsapp-float:hover {
+      background-color: #1eb75c;
+    }
+
+  </style>
 </head>
 <body>
-
   <div class="container">
-    <h1>Lista de Chá de Casa Nova</h1>
+    <h1>Lista Chá de Casa Nova</h1>
 
     {% if admin %}
-      <form action="/add" method="POST" class="form-add">
-        <input type="text" name="item" placeholder="Novo item" required>
-        <button type="submit"><i class="fas fa-plus-circle"></i> Adicionar</button>
-      </form>
-    {% else %}
-      <p class="visu-msg">Você está no modo visitante. <a href="/login">Fazer login</a></p>
+    <form action="{{ url_for('adicionar') }}" method="POST" class="form-add">
+      <input type="text" name="item" placeholder="Digite um item..." required autocomplete="off" />
+      <button type="submit"><i class="fa fa-plus"></i> Adicionar</button>
+    </form>
     {% endif %}
 
     <ul class="lista-itens">
-      {% for item in itens %}
-        <li>
-          <a href="https://www.google.com/search?q={{ item[1] | urlencode }}" target="_blank">{{ item[1] }}</a>
-          {% if admin %}
-            <form action="/remove/{{ item[0] }}" method="POST">
-              <button type="submit" class="btn-remove"><i class="fas fa-trash-alt"></i></button>
-            </form>
-          {% endif %}
-        </li>
+      {% for id, nome in itens %}
+      <li>
+        {{ nome }}
+        {% if admin %}
+        <form action="{{ url_for('remover', item_id=id) }}" method="POST" class="remove-form" title="Remover item">
+          <button type="submit" aria-label="Remover item"><i class="fa fa-trash"></i></button>
+        </form>
+        {% endif %}
+      </li>
       {% endfor %}
     </ul>
 
     {% if admin %}
-      <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    <form action="{{ url_for('logout') }}" method="POST" onsubmit="return confirm('Deseja sair?');">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+    {% else %}
+    <a href="{{ url_for('login') }}" class="login-link">Login Admin</a>
     {% endif %}
   </div>
 
-  <!-- Botão flutuante do WhatsApp -->
-  <a href="https://wa.me/SEUNUMEROAQUI" target="_blank" class="whatsapp-float">
-    <i class="fab fa-whatsapp"></i>
+  <a href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fa fa-whatsapp"></i>
   </a>
-
-  <!-- Música ambiente -->
-  <audio id="musica" autoplay loop>
-    <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-
-  <button class="mute-btn" onclick="toggleMute()">
-    <i id="mute-icon" class="fas fa-volume-up"></i>
-  </button>
-
-  <!-- Rodapé com animação -->
-  <footer>
-    <div class="footer-text">Que a força esteja com você</div>
-  </footer>
-
-  <script>
-    const musica = document.getElementById('musica');
-    const icon = document.getElementById('mute-icon');
-
-    function toggleMute() {
-      musica.muted = !musica.muted;
-      icon.className = musica.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-    }
-
-    // Mantém a música tocando mesmo com reload
-    if (sessionStorage.getItem("muted") === "true") {
-      musica.muted = true;
-      icon.className = 'fas fa-volume-mute';
-    }
-
-    document.querySelector(".mute-btn").addEventListener("click", () => {
-      sessionStorage.setItem("muted", musica.muted);
-    });
-  </script>
-
 </body>
 </html>
