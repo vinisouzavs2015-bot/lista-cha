@@ -1,0 +1,179 @@
+ody {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('/static/fundo.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  min-height: 100vh;
+  position: relative;
+  backdrop-filter: blur(3px);
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  margin-top: 60px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+form.form-add {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1em;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #0bdce3;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0aa1b1;
+}
+
+.lista-itens {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-itens li {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lista-itens li a {
+  color: #0bdce3;
+  text-decoration: none;
+}
+
+.lista-itens li a:hover {
+  text-decoration: underline;
+}
+
+.btn-remove {
+  background-color: transparent;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.logout-btn {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  color: #fff;
+}
+
+/* WhatsApp Float Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  background-color: #1eb75c;
+}
+
+/* Botão Mute */
+.mute-btn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.mute-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Rodapé */
+footer {
+  text-align: center;
+  margin-top: 60px;
+  padding: 20px;
+  color: #aaa;
+  font-size: 1.2em;
+  animation: fadeInUp 2s ease-in-out;
+}
+
+.footer-text {
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #0bdce3;
+  }
+  100% {
+    text-shadow: 0 0 20px #0bdce3;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mensagem visitante */
+.visu-msg {
+  text-align: center;
+  font-style: italic;
+  color: #ccc;
+  margin-bottom: 20px;
+}

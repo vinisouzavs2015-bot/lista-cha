@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 80px auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0bdce3;
+      color: white;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-container button:hover {
+      background-color: #099ba3;
+    }
+
+    .login-container .fa-user-lock {
+      font-size: 2em;
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #0bdce3;
+    }
+
+    .error {
+      color: #f88;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <i class="fa-solid fa-user-lock"></i>
+    <h2>Login do Admin</h2>
+    <form method="POST">
+      <input type="text" name="username" placeholder="Usuário" required>
+      <input type="password" name="password" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>

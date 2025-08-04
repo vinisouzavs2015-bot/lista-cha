@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista do Chá</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Lista de Chá de Casa Nova</h1>
+
+    {% if admin %}
+      <form action="/add" method="POST" class="form-add">
+        <input type="text" name="item" placeholder="Novo item" required>
+        <button type="submit"><i class="fas fa-plus-circle"></i> Adicionar</button>
+      </form>
+    {% else %}
+      <p class="visu-msg">Você está no modo visitante. <a href="/login">Fazer login</a></p>
+    {% endif %}
+
+    <ul class="lista-itens">
+      {% for item in itens %}
+        <li>
+          <a href="https://www.google.com/search?q={{ item[1] | urlencode }}" target="_blank">{{ item[1] }}</a>
+          {% if admin %}
+            <form action="/remove/{{ item[0] }}" method="POST">
+              <button type="submit" class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if admin %}
+      <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    {% endif %}
+  </div>
+
+  <!-- Botão flutuante do WhatsApp -->
+  <a href="https://wa.me/SEUNUMEROAQUI" target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Música ambiente -->
+  <audio id="musica" autoplay loop>
+    <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <button class="mute-btn" onclick="toggleMute()">
+    <i id="mute-icon" class="fas fa-volume-up"></i>
+  </button>
+
+  <!-- Rodapé com animação -->
+  <footer>
+    <div class="footer-text">Que a força esteja com você</div>
+  </footer>
+
+  <script>
+    const musica = document.getElementById('musica');
+    const icon = document.getElementById('mute-icon');
+
+    function toggleMute() {
+      musica.muted = !musica.muted;
+      icon.className = musica.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+    }
+
+    // Mantém a música tocando mesmo com reload
+    if (sessionStorage.getItem("muted") === "true") {
+      musica.muted = true;
+      icon.className = 'fas fa-volume-mute';
+    }
+
+    document.querySelector(".mute-btn").addEventListener("click", () => {
+      sessionStorage.setItem("muted", musica.muted);
+    });
+  </script>
+
+</body>
+</html>
