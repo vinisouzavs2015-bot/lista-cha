@@ -10,10 +10,8 @@ app.secret_key = "sua_senha_secreta_aqui"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Senha admin com hash (altere "1234" para a sua senha)
-SENHA_HASH = generate_password_hash("1234")
+SENHA_HASH = generate_password_hash("1234")  # Altere para sua senha segura
 
-# Inicializa o banco
 def init_db():
     if not os.path.exists("dados.db"):
         conn = sqlite3.connect("dados.db")
@@ -29,7 +27,6 @@ def init_db():
 
 init_db()
 
-# Decorador para proteger rotas admin
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -38,7 +35,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Função para obter itens do banco
 def obter_itens():
     conn = sqlite3.connect("dados.db")
     c = conn.cursor()
@@ -47,20 +43,17 @@ def obter_itens():
     conn.close()
     return itens
 
-# Rota pública — visualiza itens, sem edição
 @app.route("/")
 def publico():
     itens = obter_itens()
     return render_template("index.html", itens=itens, admin=False)
 
-# Rota admin — login necessário, pode editar
 @app.route("/admin")
 @login_required
 def admin():
     itens = obter_itens()
     return render_template("index.html", itens=itens, admin=True)
 
-# Página de login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -73,14 +66,12 @@ def login():
             return render_template("login.html", erro="Credenciais inválidas.")
     return render_template("login.html")
 
-# Logout via POST
 @app.route("/logout", methods=["POST"])
 @login_required
 def logout():
     session.pop("logado", None)
     return redirect(url_for("publico"))
 
-# Adicionar item (admin)
 @app.route("/add", methods=["POST"])
 @login_required
 def adicionar():
@@ -93,7 +84,6 @@ def adicionar():
         conn.close()
     return redirect(url_for("admin"))
 
-# Remover item (admin)
 @app.route("/remove/<int:item_id>", methods=["POST"])
 @login_required
 def remover(item_id):
@@ -103,7 +93,6 @@ def remover(item_id):
     conn.commit()
     conn.close()
     return redirect(url_for("admin"))
-
 
 if __name__ == "__main__":
     app.run(debug=True)
