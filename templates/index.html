@@ -10,7 +10,7 @@
   <style>
     body {
       margin: 0;
-      padding: 30px;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-image: url('/static/fundo.png');
       background-size: cover;
@@ -19,8 +19,7 @@
       color: white;
       min-height: 100vh;
       position: relative;
-      z-index: 1;
-      background-color: #000;
+      backdrop-filter: blur(3px);
     }
     body::before {
       content: "";
@@ -30,124 +29,96 @@
       z-index: -1;
     }
     .container {
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
-      background: rgba(0,0,0,0.5);
-      border-radius: 12px;
-      padding: 20px 30px 40px;
-      box-shadow: 0 0 15px rgba(0, 220, 255, 0.3);
+      padding: 40px 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      margin-top: 60px;
     }
     h1 {
       text-align: center;
-      margin-bottom: 25px;
-      font-weight: 700;
-      text-shadow: 0 0 10px #0bdce3;
+      margin-bottom: 30px;
+      text-shadow: 0 0 8px #0bdce3;
     }
     form.form-add {
       display: flex;
-      justify-content: center;
       gap: 10px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
     input[type="text"] {
       flex: 1;
-      padding: 12px 15px;
+      padding: 10px;
       border-radius: 8px;
       border: none;
-      font-size: 1.1em;
+      font-size: 1em;
       outline: none;
     }
     button {
-      background-color: #0bdce3;
+      padding: 10px 15px;
       border: none;
-      padding: 12px 18px;
+      background-color: #0bdce3;
+      color: white;
       border-radius: 8px;
       cursor: pointer;
-      color: white;
-      font-size: 1.1em;
+      font-size: 1em;
       transition: background-color 0.3s ease;
       display: flex;
       align-items: center;
       gap: 8px;
-      font-weight: 600;
-      box-shadow: 0 0 8px #0bdce3aa;
     }
     button:hover {
       background-color: #0aa1b1;
-      box-shadow: 0 0 12px #0aa1b1cc;
     }
-    ul.lista-itens {
+    .lista-itens {
       list-style: none;
       padding: 0;
-      margin: 0;
     }
-    ul.lista-itens li {
-      background: rgba(255, 255, 255, 0.1);
-      margin-bottom: 12px;
-      padding: 12px 15px;
-      border-radius: 8px;
+    .lista-itens li {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      backdrop-filter: blur(3px);
       font-size: 1.1em;
+      backdrop-filter: blur(6px);
+      transition: background-color 0.3s ease;
     }
-    ul.lista-itens li a {
+    .lista-itens li:hover {
+      background-color: rgba(11, 220, 227, 0.2);
+    }
+    .lista-itens li a.item-link {
       color: #0bdce3;
       text-decoration: none;
+      flex-grow: 1;
     }
-    ul.lista-itens li a:hover {
+    .lista-itens li a.item-link:hover {
       text-decoration: underline;
     }
-    form.remove-form button {
-      background: none;
+    .btn-remove {
+      background-color: transparent;
       border: none;
       color: #e74c3c;
-      font-size: 1.3em;
+      font-size: 1.2em;
       cursor: pointer;
       transition: color 0.3s ease;
-      display: flex;
-      align-items: center;
     }
-    form.remove-form button:hover {
+    .btn-remove:hover {
       color: #c0392b;
     }
     .logout-btn {
       display: block;
-      margin: 30px auto 0;
-      padding: 10px 25px;
-      background: transparent;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      color: #ccc;
-      font-size: 1em;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: fit-content;
       text-align: center;
+      margin-top: 20px;
+      color: #ccc;
+      text-decoration: none;
       font-weight: 600;
-      box-shadow: 0 0 8px #ccc88;
     }
     .logout-btn:hover {
-      color: white;
-      border-color: white;
-      box-shadow: 0 0 12px white;
+      color: #fff;
     }
-    .login-link {
-      display: block;
-      margin-top: 40px;
-      color: #ccc;
-      font-weight: 600;
-      text-align: center;
-      text-decoration: none;
-      font-size: 1.1em;
-      transition: color 0.3s ease;
-    }
-    .login-link:hover {
-      color: white;
-      text-decoration: underline;
-    }
-
     /* WhatsApp Float Button */
     .whatsapp-float {
       position: fixed;
@@ -156,40 +127,107 @@
       background-color: #25D366;
       color: white;
       border-radius: 50%;
-      padding: 16px;
-      font-size: 28px;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      padding: 15px;
+      font-size: 24px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
       z-index: 1000;
       text-decoration: none;
       transition: background-color 0.3s ease;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
     .whatsapp-float:hover {
       background-color: #1eb75c;
     }
-
+    /* Botão Mute */
+    #mute-btn {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+    #mute-btn:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+    /* Rodapé */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      color: #aaa;
+      font-size: 1.2em;
+      animation: fadeInUp 2s ease-in-out;
+      user-select: none;
+    }
+    .footer-text {
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 5px #0bdce3;
+      }
+      100% {
+        text-shadow: 0 0 20px #0bdce3;
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Mensagem visitante */
+    .visu-msg {
+      text-align: center;
+      font-style: italic;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Lista Chá de Casa Nova</h1>
+  <div class="container" role="main">
+    <h1>Chá de Casa Nova</h1>
 
     {% if admin %}
-    <form action="{{ url_for('adicionar') }}" method="POST" class="form-add">
-      <input type="text" name="item" placeholder="Digite um item..." required autocomplete="off" />
+    <form action="{{ url_for('adicionar') }}" method="POST" class="form-add" aria-label="Formulário para adicionar item">
+      <input type="text" name="item" placeholder="Digite um item..." required aria-required="true" />
       <button type="submit"><i class="fa fa-plus"></i> Adicionar</button>
     </form>
+    {% else %}
+      <p class="visu-msg">Você está vendo a lista pública. Para editar, faça <a href="{{ url_for('login') }}" style="color:#0bdce3;">login</a>.</p>
     {% endif %}
 
-    <ul class="lista-itens">
+    <ul class="lista-itens" aria-label="Lista de itens">
       {% for id, nome in itens %}
       <li>
-        {{ nome }}
+        <a 
+          href="https://www.google.com/search?q={{ nome | urlencode }}" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="item-link" 
+          aria-label="Pesquisar {{ nome }} no Google"
+          >{{ nome }}</a>
+
         {% if admin %}
-        <form action="{{ url_for('remover', item_id=id) }}" method="POST" class="remove-form" title="Remover item">
-          <button type="submit" aria-label="Remover item"><i class="fa fa-trash"></i></button>
+        <form action="{{ url_for('remover', item_id=id) }}" method="POST" style="margin:0;">
+          <button type="submit" class="btn-remove" aria-label="Remover {{ nome }}"><i class="fa fa-trash"></i></button>
         </form>
         {% endif %}
       </li>
@@ -197,16 +235,54 @@
     </ul>
 
     {% if admin %}
-    <form action="{{ url_for('logout') }}" method="POST" onsubmit="return confirm('Deseja sair?');">
-      <button type="submit" class="logout-btn">Logout</button>
+    <form action="{{ url_for('logout') }}" method="POST" aria-label="Logout">
+      <button type="submit" class="logout-btn"><i class="fa fa-sign-out-alt"></i> Sair</button>
     </form>
-    {% else %}
-    <a href="{{ url_for('login') }}" class="login-link">Login Admin</a>
+    <p style="text-align:center; margin-top:10px;">
+      <a href="{{ url_for('alterar_senha') }}" style="color:#0bdce3;">Alterar senha</a>
+    </p>
     {% endif %}
   </div>
 
-  <a href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp">
-    <i class="fa fa-whatsapp"></i>
+  <!-- Música de fundo -->
+  <audio id="audio" src="{{ url_for('static', filename='musica.mp3') }}" autoplay loop></audio>
+
+  <!-- Botão mute -->
+  <button id="mute-btn" aria-label="Alternar som" title="Alternar som">
+    <i class="fa fa-volume-up"></i>
+  </button>
+
+  <!-- WhatsApp Flutuante -->
+  <a href="https://wa.me/5519989579817" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contato WhatsApp">
+    <i class="fab fa-whatsapp"></i>
   </a>
+
+  <footer>
+    <p class="footer-text">que a força esteja com você</p>
+  </footer>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const muteBtn = document.getElementById('mute-btn');
+
+    // Tenta ler estado salvo
+    const isMuted = localStorage.getItem('muted') === 'true';
+    audio.muted = isMuted;
+    updateIcon();
+
+    muteBtn.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      localStorage.setItem('muted', audio.muted);
+      updateIcon();
+    });
+
+    function updateIcon() {
+      if(audio.muted) {
+        muteBtn.innerHTML = '<i class="fa fa-volume-mute"></i>';
+      } else {
+        muteBtn.innerHTML = '<i class="fa fa-volume-up"></i>';
+      }
+    }
+  </script>
 </body>
 </html>
